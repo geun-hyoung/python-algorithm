@@ -1,36 +1,34 @@
 ### 'https://school.programmers.co.kr/learn/courses/30/lessons/42891'
 def solution(food_times, k):
 
-    if sum(food_times) <= k:
-        return -1
-    
-    length = len(food_times)
-    
-    temp_dict = {i:food_times[i] for i in range(len(food_times))}
-    live_type = [i for i in range(length)]
+    types = len(food_times)
+    food_dict = {i:food_times[i] for i in range(types)}
 
-    start = 0
+    step = 0
+    while True:
 
-    for i in range(0, k-1):
+        if food_dict[step] != 0:
+            pass
 
-        if temp_dict[start] == 0:
-            temp_dict.pop(start)
+        else:
+            for i in range(step+1, step + types + 1):
+                temp_step = i%types
+                if food_dict[temp_step] != 0:
+                    step = temp_step
+                    break
+                else:
+                    if i == step + types:
+                        return -1
+                    pass
 
-            live_type[start] = 0
+        food_dict[step] -= 1
+        step = (step + 1)%types
+        k -= 1
 
-        for i in range(start + 1, start+length + 1):
-            if i >= length:
-                finds = live_type[start-i]
-            else:
-                finds = live_type[i]
-
-            if finds != 0:
-                start = live_type.index(finds)
-                break
-
-    print(start)
-    return start
-            
+        if k == 0:
+            break
         
+    return step + 1
+
 solution([3,1,2], 5)
         
